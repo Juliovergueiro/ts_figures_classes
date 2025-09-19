@@ -1,13 +1,16 @@
+export type Color = 'red' | 'green' | 'blue';
+export type Shape = 'triangle' | 'circle' | 'rectangle';
+
 export interface Figure {
-  color: string;
-  shape: string;
+  color: Color;
+  shape: Shape;
   getArea(): number;
 }
 
 export class Triangle implements Figure {
-  color: string;
+  color: Color;
 
-  shape = 'triangle';
+  shape: 'triangle' = 'triangle';
 
   a: number;
 
@@ -15,7 +18,13 @@ export class Triangle implements Figure {
 
   c: number;
 
-  constructor(color: string, a: number, b: number, c: number) {
+  constructor(color: Color, a: number, b: number, c: number) {
+    if (!['red', 'green', 'blue'].includes(color)) {
+      throw new Error(
+        `Invalid color: ${color}. Allowed values are 'red', 'green', 'blue'`,
+      );
+    }
+
     if (a <= 0 || b <= 0 || c <= 0) {
       throw new Error('Triangle sides must be greater than 0');
     }
@@ -23,10 +32,9 @@ export class Triangle implements Figure {
     const longest = Math.max(a, b, c);
 
     if (longest >= a + b + c - longest) {
-      throw new Error(
-        `Triangle inequality violated: sides ${a}, ${b}, and ${c} can't form a triangle`,
-      );
+      throw new Error(`Triangle inequality violated: sides ${a}, ${b}, ${c}`);
     }
+
     this.color = color;
     this.a = a;
     this.b = b;
@@ -34,24 +42,31 @@ export class Triangle implements Figure {
   }
 
   getArea(): number {
-    const s = (this.a + this.b + this.c) / 2; // semiperimeter
+    const s = (this.a + this.b + this.c) / 2;
     const area = Math.sqrt(s * (s - this.a) * (s - this.b) * (s - this.c));
 
-    return Math.floor(area * 100) / 100; // round down to 2 decimals
+    return Math.floor(area * 100) / 100;
   }
 }
 
 export class Circle implements Figure {
-  color: string;
+  color: Color;
 
-  shape = 'circle';
+  shape: 'circle' = 'circle';
 
   radius: number;
 
-  constructor(color: string, radius: number) {
+  constructor(color: Color, radius: number) {
+    if (!['red', 'green', 'blue'].includes(color)) {
+      throw new Error(
+        `Invalid color: ${color}. Allowed values are 'red', 'green', 'blue'`,
+      );
+    }
+
     if (radius <= 0) {
       throw new Error('Circle radius must be greater than 0');
     }
+
     this.color = color;
     this.radius = radius;
   }
@@ -59,23 +74,30 @@ export class Circle implements Figure {
   getArea(): number {
     const area = Math.PI * this.radius * this.radius;
 
-    return Math.floor(area * 100) / 100; // round down to 2 decimals
+    return Math.floor(area * 100) / 100;
   }
 }
 
 export class Rectangle implements Figure {
-  color: string;
+  color: Color;
 
-  shape = 'rectangle';
+  shape: 'rectangle' = 'rectangle';
 
   width: number;
 
   height: number;
 
-  constructor(color: string, width: number, height: number) {
+  constructor(color: Color, width: number, height: number) {
+    if (!['red', 'green', 'blue'].includes(color)) {
+      throw new Error(
+        `Invalid color: ${color}. Allowed values are 'red', 'green', 'blue'`,
+      );
+    }
+
     if (width <= 0 || height <= 0) {
       throw new Error('Rectangle sides must be greater than 0');
     }
+
     this.color = color;
     this.width = width;
     this.height = height;
@@ -84,7 +106,7 @@ export class Rectangle implements Figure {
   getArea(): number {
     const area = this.width * this.height;
 
-    return Math.floor(area * 100) / 100; // round down to 2 decimals
+    return Math.floor(area * 100) / 100;
   }
 }
 
